@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Typing Speed Test</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+    <script>
+        var startTime = 0;
+		var elapsedTime = 0;
+		var timerInterval = null
+        function startTimer() {
+			if (startTime === 0) {
+				startTime = Date.now();
+				timerInterval = setInterval(updateTimer, 100);
+			}
+		}
+        function updateTimer() {
+			elapsedTime = (Date.now() - startTime) / 1000;
+		}
+       window.addEventListener("load", function() {
+        var startButton = document.getElementById("start");
+        var textField = document.getElementById("input");
+        var testText = document.getElementById("text").textContent.trim().split(" ");
+
+        startButton.addEventListener("click", function() {
+          clearInterval(timerInterval);
+          var wordsTyped = textField.value.trim().split(" ");
+          var correctWords = 0;
+          var incorrectWords = 0;
+
+          for (var i = 0; i < testText.length; i++) {
+            if (wordsTyped[i] == testText[i]) {
+              correctWords++;
+            } else {
+              incorrectWords++;
+            }
+          }
+
+          var accuracy = Math.round((correctWords / testText.length) * 100);
+          
+          console.log(elapsedTime)
+          document.getElementById("wpm").innerHTML = Math.round((wordsTyped.length / (elapsedTime / 60)));
+          document.getElementById("correct-words").innerHTML = correctWords;
+          document.getElementById("incorrect-words").innerHTML = incorrectWords;
+          document.getElementById("accuracy").innerHTML = accuracy;
+        });
+      });
+    </script>
+	
+		
+</head>
+<body >
+  <video autoplay muted loop id="myVideo">
+    <source src="Distant_Lights_4K_Motion_Background_Loop.mp4" type="video/mp4">
+  </video>
+    <nav>
+	<h1 >Typing Speed Test</h1>
+   </nav>
+   <main>
+    <div class="content">
+   <p id="text" class="para">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus.</p>
+   
+   <textarea id="input" name="input" oninput="startTimer()" placeholder="Enter the above paragraph here" ></textarea><br>
+   <button type="button"  class="my-button" id="start">Calculate</button>
+	
+    <button onclick="location.reload()" class="my-button">Refresh</button>
+    
+</div>
+<p class="answer">Words per minute: <span id="wpm">0</span></p>
+    <p class="answer">Accuracy: <span id="accuracy"></span>%</p>
+    <p class="answer">Correct words: <span id="correct-words">0</span></p>
+    <p class="answer">Incorrect words: <span id="incorrect-words">0</span></p>
+  </div>
+</div>
+</main>
+</body>
+</html>
